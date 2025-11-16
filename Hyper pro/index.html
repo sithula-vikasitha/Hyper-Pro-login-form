@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Pro - Our Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <style>
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* The main background gradient animation is applied to the body for the dark theme */
+        body {
+            background: linear-gradient(270deg, #0f0c29, #302b63, #24243e, #1a0f2b);
+            background-size: 600% 600%;
+            animation: gradient-animation 30s ease infinite;
+            min-height: 100vh;
+        }
+
+        .section-decor {
+            background-image: linear-gradient(120deg, #ec4899 0%, #00bfff 50%, #9333ea 100%);
+            background-size: 200% 200%;
+            animation: gradient-animation 15s ease infinite;
+        }
+        .gradient-animated {
+            background-size: 200% 200%;
+            animation: gradient-animation 15s ease infinite;
+        }
+        .glassmorphism {
+            background: rgba(31, 41, 55, 0.5); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .card-3d:hover {
+            transform: rotateY(5deg) rotateX(2deg) scale(1.03);
+        }
+        .aurora-canvas {
+            position: fixed; /* Changed to fixed so it covers the whole viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7; 
+        }
+
+        .cta-button {
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; 
+            background-size: 200% 200%;
+            animation: gradient-animation 10s ease infinite;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            will-change: transform, box-shadow; 
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4), 0 8px 25px rgba(147, 51, 234, 0.4);
+        }
+        
+        .cta-button:active {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3), 0 4px 15px rgba(147, 51, 234, 0.3);
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.65;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .py-20 { padding-top: 3rem; padding-bottom: 3rem; }
+            .gap-10 { gap: 1rem; }
+            .mb-16 { margin-bottom: 2rem; }
+        }
+    </style>
+
+    <script>
+        // Background Video script - Kept for aesthetics
+        (function insertBackgroundVideo() {
+            const v = document.createElement('video');
+            v.id = 'bg-video';
+            v.src = 'background.mp4'; 
+            v.autoplay = true;
+            v.muted = true;
+            v.loop = true;
+            v.playsInline = true;
+            v.preload = 'auto';
+            function add() {
+                if (!document.getElementById('bg-video') && document.body) {
+                    document.body.insertBefore(v, document.body.firstChild);
+                    document.documentElement.classList.add('has-bg-video');
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', add);
+            } else {
+                add();
+            }
+        })();
+    </script>
+</head>
+<body class="bg-gray-900 text-white font-sans overflow-x-hidden pt-16">
+    
+    <!-- Canvas for Aurora Effect (Moved outside sections to be persistent background) -->
+    <canvas class="aurora-canvas"></canvas>
+
+    <!-- Header Section (Simplified) -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300" id="header">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center glassmorphism rounded-b-xl shadow-lg">
+            <h1 class="text-2xl md:text-3xl font-bold text-white tracking-wider">Hyper Pro</h1>
+            <nav class="hidden md:flex space-x-8">
+                <!-- Navigation simplified to only relevant or external links -->
+                <span class="text-cyan-400 font-bold">Our Projects</span>
+                <a href="https://sithula-vikasitha.github.io/Hyper-Bot/" target="_blank" class="hover:text-cyan-400 transition">Hyper Bot</a>
+            </nav>
+            <button class="md:hidden text-white" id="mobile-menu-button" aria-label="Toggle mobile menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden glassmorphism rounded-b-xl" id="mobile-menu">
+            <span class="block py-2 px-4 text-sm font-bold text-cyan-400">Our Projects</span>
+            <a href="https://sithula-vikasitha.github.io/Hyper-Bot/" target="_blank" class="block py-2 px-4 text-sm hover:bg-gray-700">Hyper Bot</a>
+        </div>
+    </header>
+
+    <!-- Our Projects Section - This is the only section kept -->
+    <section id="projects" class="py-16 md:py-20 relative z-10">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl md:text-5xl font-bold mb-2">Our Recent Projects</h3>
+            <p class="text-md md:text-lg text-gray-400 mb-8 max-w-2xl mx-auto">Discover some of the innovative web solutions we've crafted.</p>
+            <div class="h-1 w-20 mx-auto mb-8 rounded-full section-decor"></div>
+            
+            <!-- Search Bar -->
+            <div class="max-w-xl mx-auto mb-16">
+                <div class="relative">
+                    <input type="text" id="project-search" oninput="filterProjects()" placeholder="Search for projects by name or description..." 
+                           class="w-full py-3 pl-12 pr-4 text-white glassmorphism rounded-full focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300 placeholder-gray-400 text-sm md:text-base">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+            <!-- End Search Bar -->
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10" id="projects-container">
+                
+                <!-- Project 01 - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-cyan-500 card-3d reveal">
+                    <a href="https://sithula-vikasitha.github.io/Hyper-Pro/our%20projects/anime%2002/index.html" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">Anime cards</h4>
+                        <p class="text-sm md:text-base text-gray-300">Anime card 3D</p>
+                        <span class="text-cyan-400 hover:text-cyan-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+                
+                <!-- Project 02 - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-purple-500 card-3d reveal">
+                    <a href="our projects/anime 02/index.html" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">Project 02</h4>
+                        <p class="text-sm md:text-base text-gray-300">Anime fanpage 3D</p>
+                        <span class="text-purple-400 hover:text-purple-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+                
+                <!-- Project 03 - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-emerald-500 card-3d reveal">
+                    <a href="our projects/soda can 03/index.html" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">Project 03</h4>
+                        <p class="text-sm md:text-base text-gray-300">Soda can advertisement 3D</p>
+                        <span class="text-emerald-400 hover:text-emerald-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+
+                <!-- NEW PROJECT 04: AI Chatbot Interface - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-yellow-500 card-3d reveal">
+                    <a href="#" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">AI Interface</h4>
+                        <p class="text-sm md:text-base text-gray-300">Advanced AI Chatbot Interface with real-time response</p>
+                        <span class="text-yellow-400 hover:text-yellow-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+
+                <!-- NEW PROJECT 05: Crypto Dashboard - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-red-500 card-3d reveal">
+                    <a href="#" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">Crypto Tracker</h4>
+                        <p class="text-sm md:text-base text-gray-300">Real-time Cryptocurrency Tracking Dashboard</p>
+                        <span class="text-red-400 hover:text-red-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+                <!-- NEW PROJECT 05: Crypto Dashboard - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-red-500 card-3d reveal">
+                    <a href="#" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">movies</h4>
+                        <p class="text-sm md:text-base text-gray-300">Real-time Cryptocurrency Tracking Dashboard</p>
+                        <span class="text-red-400 hover:text-red-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+
+                <!-- NEW PROJECT 06: E-commerce Landing Page - Placeholder removed. -->
+                <div class="glassmorphism p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-indigo-500 card-3d reveal">
+                    <a href="#" target="_blank" class="block">
+                        <h4 class="text-xl md:text-2xl font-bold mb-2">E-commerce UI</h4>
+                        <p class="text-sm md:text-base text-gray-300">Modern, responsive E-commerce Product Landing Page</p>
+                        <span class="text-indigo-400 hover:text-indigo-300 transition mt-3 inline-block">View Project <i class="fas fa-arrow-right ml-1"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Swiper script removed, Aurora script kept -->
+    <script>
+        const header = document.getElementById('header');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        window.onscroll = function() {
+            if (window.pageYOffset > 50) {
+                header.classList.add('glassmorphism');
+            } else {
+                header.classList.remove('glassmorphism');
+            }
+        };
+
+        mobileMenuButton.onclick = function() {
+            mobileMenu.classList.toggle('hidden');
+        };
+        
+        // Project search filtering function
+        function filterProjects() {
+            // Get the search term and convert to lowercase for case-insensitive search
+            const searchTerm = document.getElementById('project-search').value.toLowerCase();
+            const projectsContainer = document.getElementById('projects-container');
+            // Get all direct children (the project cards)
+            const projectCards = projectsContainer.children; 
+
+            Array.from(projectCards).forEach(card => {
+                // Ensure it's a project card (to skip potential non-card elements if any)
+                if (!card.classList.contains('glassmorphism')) return; 
+                
+                const content = card.querySelector('a');
+                if (!content) return; 
+
+                // Get text content from title and description
+                const title = content.querySelector('h4')?.textContent.toLowerCase() || '';
+                const description = content.querySelector('p')?.textContent.toLowerCase() || '';
+
+                // Check if the search term is present in either the title or the description
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.classList.remove('hidden'); // Show card
+                } else {
+                    card.classList.add('hidden'); // Hide card using Tailwind utility class
+                }
+            });
+        }
+        
+        // Aurora effect script
+        const canvas = document.querySelector('.aurora-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let particles = [];
+        const colors = ["#FF1493", "#00BFFF", "#9400D3"];
+
+        function Particle(x, y) {
+            this.x = x;
+            this.y = y;
+            this.radius = Math.random() * 5 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.vx = Math.random() * 2 - 1;
+            this.vy = Math.random() * 2 - 1;
+        }
+
+        Particle.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+
+        Particle.prototype.update = function() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+            this.draw();
+        }
+
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle(Math.random() * width, Math.random() * height));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.globalCompositeOperation = 'lighter';
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+            }
+            requestAnimationFrame(animate);
+        }
+        
+        window.onresize = function() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = []; // Clear and recreate particles on resize
+            createParticles();
+        }
+
+        createParticles();
+        animate();
+
+    </script>
+
+</body>
+</html>

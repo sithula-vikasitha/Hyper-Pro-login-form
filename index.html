@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Pro Login Form</title>
+    <!-- Loading Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Using Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1f2937; /* Dark background as fallback */
+            color: #ffffff;
+            /* Ensure content is on top of video/overlay */
+            position: relative; 
+            z-index: 1;
+        }
+
+        /* Full-screen video styling */
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1000; /* Send to back */
+            object-fit: cover; /* Cover the entire screen */
+        }
+        
+        /* Dark overlay for text readability over the video */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+            z-index: -900;
+        }
+
+        /* Glass-like effect on the login card */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Blur effect (Modern aesthetic) */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Video Background Structure -->
+    <div class="video-overlay"></div>
+    <video autoplay muted loop id="video-background">
+        <!-- 
+            NOTE: 'background.mp4' file will not load in this sandbox environment 
+            because external file paths are restricted. This will only work 
+            if you run this code on a web server with the video file present.
+        -->
+        <source src="assets\background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <!-- Login Container -->
+    <div id="loginContainer" class="w-full max-w-sm p-8 rounded-xl shadow-2xl glass-card text-white">
+        <!-- Header -->
+        <h2 class="text-3xl font-extrabold mb-2 text-center text-white">Hyper Pro Login Form</h2>
+        <p class="text-sm text-gray-300 mb-8 text-center">Enter your password to access the portal.</p>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <!-- Password Field -->
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium mb-2 text-gray-200">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                    class="w-full px-4 py-3 border border-gray-600 rounded-xl bg-gray-800 bg-opacity-50 text-white placeholder-gray-400 focus:ring-sky-500 focus:border-sky-500 transition duration-150 ease-in-out shadow-inner"
+                >
+            </div>
+
+            <!-- Error Message Display -->
+            <div id="errorMessage" class="text-red-400 text-sm mb-4 font-medium hidden text-center p-2 rounded-lg bg-red-900 bg-opacity-30">
+                Authentication Failed! The password entered is incorrect.
+            </div>
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                class="w-full py-3 px-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-sky-300 mt-4"
+            >
+                Login
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // The fixed password for demonstration (can be updated)
+        const CORRECT_PASSWORD = "sithula_2011";
+        
+        // **UPDATED:** The page to redirect to, as requested by the user.
+        const TARGET_PAGE = "Hyper pro/index.html"; 
+
+        /**
+         * Handles the login attempt and redirects on success.
+         * @param {Event} event - The form submission event.
+         */
+        function handleLogin(event) {
+            // Prevent the form from submitting automatically
+            event.preventDefault();
+
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('errorMessage');
+            const enteredPassword = passwordInput.value;
+
+            // Check the password
+            if (enteredPassword === CORRECT_PASSWORD) {
+                // Success: Hide error message and redirect to the target page
+                errorMessage.classList.add('hidden');
+                console.log(`Login successful. Redirecting to '${TARGET_PAGE}'...`);
+                window.location.href = TARGET_PAGE;
+            } else {
+                // Failure: Show error message
+                errorMessage.classList.remove('hidden');
+                console.error("Incorrect password.");
+                // Clear the input field for security
+                passwordInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
